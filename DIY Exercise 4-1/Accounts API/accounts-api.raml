@@ -1,0 +1,195 @@
+#%RAML 1.0
+title: Accounts API
+
+types:
+  Account: !include DataType/Account.raml
+
+/accounts:
+  get:
+    displayName: Get all accounts
+    description: Retrieves all accounts in the database
+    headers:
+      Requester-ID:
+        displayName: Requester ID
+        description: ID of the person requesting information
+        required: true
+        default: RID-2345
+    queryParameters:
+      type:
+        displayName: Account Type
+        description: Type of account whether Personal or Business
+        enum:
+          - Personal
+          - Business
+      name:
+        displayName: Account holder's name
+        description: Name of the account holder
+        type: string
+        required: false
+      country:
+        displayName: Country of residence
+        description: Name of the country in which the account holder resides
+        type: string
+        required: false
+
+    responses:
+      200:
+        body:
+          application/json:
+            type: Account[]
+            examples:
+              output: !include Examples/accountsExample.raml
+      400:
+        body:
+          application/json:
+            example:
+              message: Unable to retrieve accounts.Try again!!
+
+  post:
+    displayName: Add account
+    description: Add account to the database
+    headers:
+      Requester-ID:
+        displayName: Requester ID
+        description: ID of the person requesting information
+        required: true
+        default: RID-2345
+    body:
+      application/json:
+        type: Account[]
+        examples:
+          input: !include Examples/accountsNoIdExample.raml
+      
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              message: Account created (but not really)
+      
+      400:
+        body:
+          application/json:
+            example:
+              message: Unable to add accounts.Try again!!
+
+        
+  /{id}:
+    uriParameters:
+      id:
+        displayName: Account ID
+        description: ID of the account holder
+        type: string
+        required: true
+        default: AID-67890
+                       
+    get:
+      displayName: Get Account based on ID
+      description: Retrieve account from the database based on ID
+      headers:
+       Requester-ID:
+         displayName: Requester ID
+         description: ID of the person requesting information
+         required: true
+         default: RID-2345
+      responses:
+        200:
+          body:
+            application/json:
+              type: Account
+              examples:
+                output: !include Examples/accountExample.raml
+        400:
+          body:
+            application/json:
+              example:
+                message: Unable to retrieve account.Try again!!
+    put:
+      displayName: Update the entire account by ID
+      description: Account is updated completely based on the given ID value
+      headers:
+       Requester-ID:
+         displayName: Requester ID
+         description: ID of the person requesting information
+         required: true
+         default: RID-2345
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                message: account replaced (but not really)
+
+        400:
+          body:
+            application/json:
+              example:
+                message: Unable to update account.check for errors and Try again!!
+
+    patch:
+      displayName: Update partial or entire Account by ID
+      description: Account is modified based on the given ID value
+      headers:
+       Requester-ID:
+         displayName: Requester ID
+         description: ID of the person requesting information
+         required: true
+         default: RID-2345
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                message: account modified (but not really)
+
+        400:
+          body:
+            application/json:
+              example:
+                message: Unable to modify account.check for errors and Try again!!
+                
+    delete:
+      displayName: Delete account
+      description: Delete account based on the given ID
+      headers:
+       Requester-ID:
+         displayName: Requester ID
+         description: ID of the person requesting information
+         required: true
+         default: RID-2345
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                message: account deleted (but not really) 
+
+        400:
+          body:
+            application/json:
+              example:
+                message: Unable to delete account. check for errors and Try again!!
+      
+                
+            
+
+                
+              
+
+
+  
+      
+
+
+
+
+
+
+
+
+      
+
+
+
+
+  
